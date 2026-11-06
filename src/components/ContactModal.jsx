@@ -1,71 +1,51 @@
-import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+﻿import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaTimes } from "react-icons/fa";
 
 const ContactModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+  const dialog = useRef(null);
+  const reduced = useReducedMotion();
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousFocus = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialog.current?.querySelector("button")?.focus();
+    const handleKey = (event) => {
+      if (event.key === "Escape") onClose();
+      if (event.key !== "Tab") return;
+      const items = dialog.current?.querySelectorAll('a[href], button');
+      if (!items?.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKey);
+      previousFocus?.focus();
+    };
+  }, [isOpen, onClose]);
 
-  return (
-    <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      {/* Modal */}
-      <motion.div
-        initial={{ scale: 0.7, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl w-[90%] max-w-md"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2 className="text-2xl font-bold mb-4 dark:text-white">
-          Contact Me
-        </h2>
-
-        <p className="text-gray-600 dark:text-gray-300 mb-6">
-          Feel free to connect with me 👇
-        </p>
-
-        {/* Email */}
-        <a
-          href="mailto:sagarmanna954@gmail.com"
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <FaEnvelope />
-          <span className="dark:text-white">Email</span>
-        </a>
-
-        {/* GitHub */}
-        <a
-          href="https://github.com/sagarmanna"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <FaGithub />
-          <span className="dark:text-white">GitHub</span>
-        </a>
-
-        {/* LinkedIn */}
-        <a
-          href="https://www.linkedin.com/in/manna-s/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <FaLinkedin />
-          <span className="dark:text-white">LinkedIn</span>
-        </a>
-
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="mt-6 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-        >
-          Close
-        </button>
+  return createPortal(<AnimatePresence>{isOpen && (
+    <motion.div className="contact-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduced ? 0 : .18 }} onClick={onClose}>
+      <motion.div ref={dialog} className="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-title" aria-describedby="contact-description" initial={{ opacity: 0, y: reduced ? 0 : 18, scale: reduced ? 1 : .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: reduced ? 0 : 10 }} transition={{ duration: reduced ? 0 : .22 }} onClick={event => event.stopPropagation()}>
+        <button className="contact-dismiss" aria-label="Close contact dialog" onClick={onClose}><FaTimes /></button>
+        <div className="contact-person"><img src="/download.jpeg" alt="" /><div><strong>Sagar Manna</strong><span>AI Engineer &amp; Full-Stack Developer</span></div></div>
+        <p className="contact-kicker">LET'S START A CONVERSATION</p>
+        <h2 id="contact-title">Have something<br />in mind?</h2>
+        <p id="contact-description">For opportunities, collaborations, or a conversation about what you're building, get in touch.</p>
+        <a className="contact-email" href="mailto:sagarmanna954@gmail.com"><span className="contact-link-icon"><FaEnvelope /></span><span><small>EMAIL ME</small><strong>sagarmanna954@gmail.com</strong></span><FaArrowRight className="contact-arrow" /></a>
+        <div className="contact-network">
+          <a href="https://github.com/sagarmanna" target="_blank" rel="noopener noreferrer"><FaGithub /><span>GitHub<small>Explore my code</small></span><FaArrowRight className="contact-arrow" /></a>
+          <a href="https://www.linkedin.com/in/manna-s/" target="_blank" rel="noopener noreferrer"><FaLinkedin /><span>LinkedIn<small>Let's connect</small></span><FaArrowRight className="contact-arrow" /></a>
+        </div>
+        <div className="contact-dialog-footer"><span>Based in Gujarat, India</span><button onClick={onClose}>Back to portfolio <span aria-hidden="true">↗</span></button></div>
       </motion.div>
-    </div>
-  );
+    </motion.div>
+  )}</AnimatePresence>, document.body);
 };
-
 export default ContactModal;

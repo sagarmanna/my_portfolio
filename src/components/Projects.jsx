@@ -1,12 +1,41 @@
-import { motion } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import Reveal from "./Reveal";
+import { motion, useReducedMotion } from "framer-motion";
+import { FaGithub, FaExternalLinkAlt, FaCar, FaBrain, FaWallet } from "react-icons/fa";
 
 const projects = [
+  {
+    category: "Computer Vision",
+    icon: FaCar,
+    title: "BharashaRide - Driver Alert System",
+    desc: "Real-time driver monitoring that detects drowsiness, yawning, and emotions with facial landmarks. A React dashboard connects to FastAPI for live audio alerts and safety warnings.",
+    tech: ["React", "FastAPI", "Python", "OpenCV", "Dlib"],
+    github: "https://github.com/sagarmanna/BharashaRide",
+    live: "https://www.youtube.com/watch?v=MgHXPz6WP-c",
+    liveLabel: "Watch demo",
+  },
+  {
+    category: "Agentic AI",
+    icon: FaBrain,
+    title: "ResearchMind - Multi-Agent Research",
+    desc: "Automated research and report generation with web search, data extraction, and writer and critic chains for report refinement and scoring.",
+    tech: ["Python", "Streamlit", "LangChain", "LangGraph", "OpenAI API"],
+    github: "https://github.com/sagarmanna/MULTI_AGENT_SYSTEM",
+    live: "https://multiagentsystem9.streamlit.app/",
+  },
+  {
+    category: "Full-Stack Application",
+    icon: FaWallet,
+    title: "MoneyTracker - Expense Management",
+    desc: "Full-stack expense tracking with secure REST APIs, balance and transaction management, and cloud storage using MongoDB Atlas.",
+    tech: ["React", "Node.js", "Express", "MongoDB"],
+    github: "https://github.com/sagarmanna/MoneyTracker",
+    live: "#",
+  },
   {
     title: "Room Booking Dashboard",
     desc: "Full-featured hotel booking dashboard with advanced filtering, booking flow, and admin analytics.",
     image: "/room.png",
-    tech: ["Next.js", "React", "Tailwind", "Framer Motion"],
+    tech: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
     github: "https://github.com/sagarmanna/Room-Booking",
     live: "https://room-booking-bice.vercel.app/",
   },
@@ -29,88 +58,22 @@ const projects = [
 ];
 
 const Projects = () => {
-  return (
-    <section className="px-6 md:px-16 py-20 bg-gray-50 dark:bg-gray-900">
-      
-      <h2 className="text-4xl font-bold mb-12 dark:text-white">
-        Projects
-      </h2>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-        {projects.map((project, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition"
-          >
-
-            {/* Image */}
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-48 object-cover"
-            />
-
-            {/* Content */}
-            <div className="p-5">
-
-              <h3 className="text-lg font-semibold dark:text-white">
-                {project.title}
-              </h3>
-
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-                {project.desc}
-              </p>
-
-              {/* Tech Tags */}
-              <div className="flex flex-wrap gap-2 mt-4">
-                {project.tech.map((t, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              {/* Buttons */}
-              <div className="flex justify-between items-center mt-5">
-
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-500"
-                >
-                  <FaGithub />
-                  Code
-                </a>
-
-                {project.live !== "#" && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-blue-500 hover:underline"
-                  >
-                    Live
-                    <FaExternalLinkAlt />
-                  </a>
-                )}
-
-              </div>
-
-            </div>
-          </motion.div>
-        ))}
-
-      </div>
-    </section>
-  );
+  const reduced = useReducedMotion();
+  return <section id="projects" className="projects-section" aria-labelledby="projects-title">
+    <div className="projects-inner">
+      <Reveal><header className="projects-heading"><span className="projects-eyebrow">SELECTED WORK</span><h2 id="projects-title">Ideas turned into products.</h2><p>AI systems, practical tools, and full-stack applications.</p></header></Reveal>
+      <div className="projects-grid">{projects.map((project, index) => {
+        const Icon = project.icon;
+        const [name, subtitle] = project.title.split(" - ");
+        return <motion.article className="project-card" key={project.title} initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .15 }} transition={{ duration: reduced ? 0 : .4, delay: reduced ? 0 : index % 3 * .06 }}>
+          {project.image ? <div className="project-image"><img src={project.image} alt={`${name} interface`} loading="lazy" /></div> : <div className={`project-art project-art-${index}`} aria-hidden="true"><div className="project-art-grid" /><div className="project-art-icon"><Icon /></div><span>{project.category}</span><div className="project-art-orbit" /></div>}
+          <div className="project-content"><h3>{name}</h3>{subtitle && <p className="project-subtitle">{subtitle}</p>}<p className="project-description">{project.desc}</p>
+            <ul className="project-tech" aria-label={`${name} technologies`}>{project.tech.map(tech => <li key={tech}>{tech}</li>)}</ul>
+            <div className="project-links"><a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`View ${name} source code`}><FaGithub aria-hidden="true" /> Source code</a>{project.live !== "#" && <a href={project.live} target="_blank" rel="noopener noreferrer" aria-label={`${project.liveLabel || "View live project"}: ${name}`}>{project.liveLabel || "Live project"} <FaExternalLinkAlt aria-hidden="true" /></a>}</div>
+          </div>
+        </motion.article>;
+      })}</div>
+    </div>
+  </section>;
 };
-
 export default Projects;
