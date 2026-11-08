@@ -293,15 +293,15 @@ section { scroll-margin-top: 0; }
 .contact-write:hover { background: #24597555; }
 .contact-location { display: flex; align-items: center; gap: 7px; margin-top: 19px; font-size: 11px; color: #8199b9; }
 .contact-methods { min-width: 0; display: grid; gap: 14px; }
-.message-form { display: grid; width: 100%; max-width: 520px; justify-self: start; gap: 14px; padding: 20px; border: 1px solid #a7c0dc24; border-radius: 18px; background: linear-gradient(155deg, #142133, #101b2b 65%); }
+.message-form { display: grid; width: 100%; max-width: 520px; justify-self: start; gap: 14px; padding: 20px; position: relative; isolation: isolate; border: 1px solid #91abc32b; border-radius: 22px; background: radial-gradient(ellipse at 100% 0, #b3923820, transparent 48%), radial-gradient(ellipse at 0 100%, #315c7b12, transparent 55%), linear-gradient(145deg, #182334, #101a29 75%); }
 #contact .message-form h3 { margin-top: 8px; font-size: 22px; font-weight: 600; letter-spacing: -.03em; }
 #contact .message-form header p { font-size: 13px; line-height: 1.7; margin-top: 8px; }
 .message-form-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.message-form label { display: grid; gap: 9px; min-width: 0; font-size: 12px; font-weight: 500; color: #aebed1; }
-.message-form input:not([type="hidden"]), .message-form textarea { width: 100%; min-width: 0; min-height: 48px; padding: 13px 14px; border: 1px solid #334256; border-radius: 9px; background: #0b1523; color: #edf2ff; font: inherit; font-size: 14px; line-height: 1.6; }
+.message-form label { display: grid; gap: 8px; min-width: 0; font-size: 12px; font-weight: 500; color: #aebed1; }
+.message-form input:not([type="hidden"]), .message-form textarea { width: 100%; min-width: 0; min-height: 48px; padding: 12px 14px; border: 1px solid #35455a; border-radius: 9px; background: #0c1726; color: #edf2ff; font: inherit; font-size: 14px; line-height: 1.6; }
 .message-form textarea { resize: vertical; min-height: 96px; }
 .message-form input::placeholder, .message-form textarea::placeholder { color: #7f95af; }
-.message-form input:focus-visible, .message-form textarea:focus-visible { outline: 2px solid #71cddc; outline-offset: 2px; border-color: #71cddc; }
+.message-form input:focus-visible, .message-form textarea:focus-visible { outline: 2px solid #71cddc40; outline-offset: 2px; border-color: #79b8c9; box-shadow: inset 0 1px 3px #00000020, 0 0 0 3px #71cddc0a; }
 .message-form-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 #contact .message-form-bottom p { flex: 1 1 140px; font-size: 11px; line-height: 1.7; color: #91a9c3; }
 .message-form button { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 48px; padding: 13px 20px; border-radius: 9px; background: #8bd5e0; color: #071729; font-size: 13px; font-weight: 650; }
@@ -464,7 +464,7 @@ section { scroll-margin-top: 0; }
   .contact-method-arrow { transition: transform .25s ease; }
   .contact-method:hover .contact-method-arrow { transform: rotate(-35deg) translateX(3px); }
   .hero-primary > svg { transition: transform .2s ease; }
-  .hero-primary:hover > svg { transform: translateX(3px); }
+  .hero-primary:hover > svg { transform: translateX(2px); }
   .hero-socials a { transition: transform .2s, color .2s, border-color .2s; }
   .hero-socials a:hover { transform: translateY(-3px); }
   .portrait-annotation { animation: portrait-label-drift 8s ease-in-out 2; }
@@ -658,21 +658,52 @@ body { font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif; }
 .contact-details .contact-method-text > span { display: none; }
 .contact-details .contact-social-links { gap: 10px; }
 .contact-details .contact-social-links > a { padding: 13px 16px; min-height: 58px; }
-.contact-section-inner > .message-form { justify-self: end; padding: 24px; gap: 18px; box-shadow: inset 0 1px 0 #ffffff06, 0 16px 44px #00000020; }
+.contact-section-inner > .message-form { justify-self: end; padding: 24px; gap: 18px; box-shadow: inset 0 1px 0 #d0dfec14, inset 0 -1px 0 #00000024, 0 2px 4px #00000018, 0 18px 46px #00000028; }
 #contact .message-form h3 { margin-top: 0; }
-.message-form-heading { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid #a7c0dc12; }
-.message-form-icon { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border: 1px solid #5b9eae40; border-radius: 12px; background: linear-gradient(145deg, #244250, #192c3e); color: #a1d6e0; font-size: 19px; box-shadow: inset 0 1px 0 #ffffff08; }
+.message-form::before { content: ''; position: absolute; top: -1px; left: 24px; right: 24px; height: 1px; background: linear-gradient(90deg, transparent, #ffe09480 55%, transparent); pointer-events: none; }
+.message-form-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; padding-bottom: 4px; }
+.message-form-heading > div { min-width: 0; }
+.message-form-eyebrow { display: block; margin-bottom: 8px; color: #d4bc7e; font-size: 9px; font-weight: 600; letter-spacing: .17em; }
+.message-form-icon { order: 2; margin-top: 3px; transform: rotate(-6deg); }
+.message-form-icon { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border: 1px solid #e2c78030; border-radius: 12px; background: linear-gradient(145deg, #51493270, #282c30); color: #f0d590; font-size: 19px; box-shadow: inset 0 1px 0 #ffffff18, inset 0 -2px 3px #00000018, 0 2px 4px #00000012; }
 #contact .message-form header p { margin-top: 5px; font-size: 12px; color: #8fa5be; }
-#contact .message-form h3 { font-size: 21px; letter-spacing: -.025em; }
-.message-form input:not([type="hidden"]), .message-form textarea { box-shadow: inset 0 2px 4px #00000018; }
-.message-form input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px #0b1523 inset; -webkit-text-fill-color: #edf2ff; caret-color: #edf2ff; }
-.message-form input:autofill { background: #0b1523; color: #edf2ff; }
-.message-form-bottom { padding-top: 0; }
+#contact .message-form h3 { font-size: clamp(23px, 2.3vw, 27px); font-weight: 600; line-height: 1.2; letter-spacing: -.035em; }
+.message-form input:not([type="hidden"]), .message-form textarea { box-shadow: inset 0 2px 5px #00000030, 0 1px 0 #ffffff05; }
+.message-form input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px #0c1726 inset; -webkit-text-fill-color: #edf2ff; caret-color: #edf2ff; }
+.message-form input:autofill { background: #0c1726; color: #edf2ff; }
+.message-form-bottom { margin-top: 2px; padding: 16px 0 2px; border-top: 1px solid #8da6c21a; }
 #contact .message-form-bottom p { display: flex; align-items: center; gap: 7px; font-size: 11px; }
 .message-form-bottom p svg { color: #7996b0; flex-shrink: 0; }
-.message-form button { border: 1px solid #ffe696; background: linear-gradient(180deg, #ffdb67, #f5be36); color: #241b08; box-shadow: inset 0 1px 0 #ffffff45, 0 3px 8px #00000020; }
-.message-form button:hover { background: linear-gradient(180deg, #ffe58a, #ffd052); }
+.message-form button { position: relative; isolation: isolate; overflow: hidden; gap: 16px; padding: 11px 14px 11px 20px; border: 1px solid #ffe89a; border-radius: 12px; background: linear-gradient(145deg, #ffe58a, #f9cd52 55%, #f2bd36); color: #342608; text-shadow: 0 1px 0 #ffffff25; box-shadow: inset 0 1px 0 #fff8d6a0, inset 0 -1px 0 #c3983940, 0 2px 0 #a87e27, 0 5px 12px #00000024; }
+.message-form button::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 20%, #fff9df66 50%, transparent 80%); transform: translateX(-140%); pointer-events: none; }
+.send-button-arrow { display: grid; place-items: center; width: 28px; height: 28px; flex-shrink: 0; border: 1px solid #8d66151a; border-radius: 50%; background: #79500c12; box-shadow: inset 0 1px 1px #7d540c0a; }
+.send-button-arrow svg { font-size: 12px; }
+.send-button-arrow { overflow: hidden; }
+.send-arrow-motion { display: grid; place-items: center; }
+.message-form button:disabled { cursor: wait; opacity: .8; }
+.message-form-status:empty { display: none; }
+.message-form-status { display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px; border-radius: 9px; font-size: 12px; line-height: 1.7; }
+.message-form-status svg { flex-shrink: 0; margin-top: 4px; }
+.message-form-status-sending { color: #b6c9de; background: #91b4df0a; }
+.message-form-status-success { color: #b0e6cd; border: 1px solid #4ea88445; background: #1b795b18; }
+.message-form-status-error { color: #f1c1b5; border: 1px solid #c8796440; background: #a3442714; }
+.message-form-status a { text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .message-form button::before { transition: transform .6s ease; } .message-form button:hover::before { transform: translateX(140%); } }
+.message-form button:hover { background: linear-gradient(145deg, #ffeaa0, #ffda6a 55%, #f8ca4b); }
 .message-form button:active { box-shadow: inset 0 2px 4px #00000018; }
+@media (prefers-reduced-motion: no-preference) { .message-form input, .message-form textarea, .message-form label { transition: border-color .18s ease, box-shadow .18s ease, color .18s ease; } }
+.message-form label:focus-within { color: #f0d590; }
+.message-form:focus-within { border-color: #c6ab644d; }
+.message-form-eyebrow::before { content: ''; display: inline-block; width: 5px; height: 5px; margin-right: 8px; border-radius: 50%; vertical-align: 1px; background: #e9c768; box-shadow: 0 0 10px #e9c73030; }
+.message-form input:not([type="hidden"]):hover, .message-form textarea:hover { border-color: #516178; }
+.message-form input:focus-visible, .message-form textarea:focus-visible { outline-color: #e7c76b30; border-color: #c0a65f; box-shadow: inset 0 1px 3px #00000020, 0 0 0 3px #e7c76b08; }
+@media (prefers-reduced-motion: no-preference) {
+  .message-form { transition: border-color .25s ease; }
+  .message-form-icon { transition: transform .3s ease, box-shadow .3s ease; }
+  .message-form:focus-within .message-form-icon { transform: rotate(0); box-shadow: inset 0 1px 0 #ffffff18, 0 4px 18px #d3aa2910; }
+  .message-form button svg { transition: transform .2s ease; }
+  .message-form button:hover svg { transform: translateX(3px); }
+}
 @media (max-width: 1100px) { .contact-details { max-width: 650px; } .contact-section-inner > .message-form { justify-self: start; } }
 @media (max-width: 480px) { .contact-section-inner > .message-form { padding: 20px; } .contact-details .contact-method-text strong { font-size: 13px; } }
 
