@@ -9,6 +9,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { scrollYProgress } = useScroll();
   const reduced = useReducedMotion();
+  const toggleRef = useRef(null);
   const pendingTarget = useRef(null);
   const releaseTimer = useRef(null);
   const selectSection = (event, id) => {
@@ -74,15 +75,25 @@ const Navbar = () => {
   }, []);
   useEffect(() => {
     if (!open) return;
-    const close = event => { if (event.key === "Escape") setOpen(false); };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const close = event => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
     document.addEventListener("keydown", close);
-    return () => document.removeEventListener("keydown", close);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", close);
+    };
   }, [open]);
-  return <nav className={`site-nav${scrolled ? " nav-scrolled" : ""}`} aria-label="Main navigation"><div className="nav-inner">
+  return <nav className={`site-nav${scrolled ? " nav-scrolled" : ""}${open ? " nav-menu-open" : ""}`} aria-label="Main navigation"><div className="nav-inner">
     <a href="#home" className="nav-brand" onClick={event => selectSection(event, "home")}><span aria-hidden="true">S</span> Sagar</a>
     <ul id="primary-menu" className={`nav-links ${open ? "is-open" : ""}`}>{links.map(link => <li key={link}><a href={`#${link}`} aria-current={active === link ? "location" : undefined} onClick={event => selectSection(event, link)}>{link}{active === link && <motion.span className="nav-active-indicator" layoutId={reduced ? undefined : "nav-active-indicator"} initial={false} transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 34 }} aria-hidden="true" />}</a></li>)}</ul>
     <a className="nav-resume" href="/S_MANNA_RESUME.pdf" download><FaDownload /> Resume</a>
-    <button className="nav-toggle" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="primary-menu" onClick={() => setOpen(!open)}>{open ? <HiX /> : <HiMenu />}</button>
-  </div><motion.div className="nav-reading-progress" style={{ scaleX: scrollYProgress }} /></nav>;
+    <button ref={toggleRef} className="nav-toggle" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="primary-menu" onClick={() => setOpen(!open)}>{open ? <HiX /> : <HiMenu />}</button>
+  </div>{open && <button className="nav-backdrop" aria-label="Close navigation menu" tabIndex={-1} onClick={() => setOpen(false)} />}<motion.div className="nav-reading-progress" style={{ scaleX: scrollYProgress }} /></nav>;
 };
 export default Navbar;

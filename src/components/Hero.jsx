@@ -27,8 +27,8 @@ const Hero = () => {
             <motion.ul className="hero-tags" {...reveal(.52)}><li><FaMicrochip /> AI Engineering</li><li><FaCode /> Full-Stack Development</li><li><FaLayerGroup /> Agentic AI</li></motion.ul>
             <motion.div className="hero-actions" {...reveal(.64)}>
               <motion.button whileHover={reduced ? {} : { y: -3 }} whileTap={{ scale: .98 }} className="hero-primary" onClick={() => setOpen(true)}>Let's Connect <FaArrowRight /></motion.button>
-              <motion.a whileHover={reduced ? {} : { y: -3 }} className="hero-secondary" href="/S_MANNA_RESUME.pdf" target="_blank" rel="noopener noreferrer" aria-label="View resume (opens in a new tab)"><FaEye /> View Resume</motion.a>
-              <motion.a whileHover={reduced ? {} : { y: -3 }} className="hero-secondary" href="/S_MANNA_RESUME.pdf" download><FaDownload /> Download Resume</motion.a>
+              <motion.a whileHover={reduced ? {} : { y: -3 }} className="hero-secondary" data-sound="on" href="/S_MANNA_RESUME.pdf" target="_blank" rel="noopener noreferrer" aria-label="View resume (opens in a new tab)"><FaEye /> View Resume</motion.a>
+              <motion.a whileHover={reduced ? {} : { y: -3 }} className="hero-secondary" data-sound="on" href="/S_MANNA_RESUME.pdf" download><FaDownload /> Download Resume</motion.a>
             </motion.div>
             <motion.div className="hero-socials" {...reveal(.76)}>
               <a aria-label="Sagar Manna on GitHub" href="https://github.com/sagarmanna" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
@@ -48,16 +48,19 @@ const Hero = () => {
           <div className="hero-transition-glow" aria-hidden="true" />
           <svg className="ambient-wave" viewBox="0 0 1440 160" preserveAspectRatio="none" fill="none" aria-hidden="true">
             <defs>
-              <linearGradient id="ribbon-color" x1="0" y1="80" x2="1440" y2="80" gradientUnits="userSpaceOnUse"><stop stopColor="#36677c" stopOpacity="0" /><stop offset=".23" stopColor="#6ab5c7" stopOpacity=".5" /><stop offset=".52" stopColor="#7484b3" stopOpacity=".18" /><stop offset=".78" stopColor="#9a89bf" stopOpacity=".45" /><stop offset="1" stopColor="#554b79" stopOpacity="0" /></linearGradient>
-              <linearGradient id="ribbon-shade" x1="0" y1="30" x2="0" y2="155" gradientUnits="userSpaceOnUse"><stop stopColor="#739fc3" stopOpacity=".12" /><stop offset="1" stopColor="#070f21" stopOpacity="0" /></linearGradient>
-              <filter id="ribbon-soft" x="-10%" y="-100%" width="120%" height="300%"><feGaussianBlur stdDeviation="12" /></filter>
-              <path id="ribbon-contour" d="M-80 105 C130 110 195 40 370 62 C560 86 650 133 835 91 C1020 49 1090 31 1240 62 C1370 89 1435 99 1520 81" />
+              <linearGradient id="ribbon-light" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse"><stop stopColor="#43879f" stopOpacity="0" /><stop offset=".2" stopColor="#94dfed" stopOpacity=".65" /><stop offset=".48" stopColor="#547dba" stopOpacity=".08" /><stop offset=".78" stopColor="#b8a5e1" stopOpacity=".6" /><stop offset="1" stopColor="#6865a4" stopOpacity="0" /></linearGradient>
+              <linearGradient id="ribbon-material" x1="0" y1=".1" x2=".15" y2="1"><stop stopColor="#8bbfd4" stopOpacity=".02" /><stop offset=".28" stopColor="#70b9d5" stopOpacity=".2" /><stop offset=".46" stopColor="#627fba" stopOpacity=".1" /><stop offset=".7" stopColor="#8a7cbf" stopOpacity=".04" /><stop offset="1" stopColor="#070f21" stopOpacity="0" /></linearGradient>
+              <radialGradient id="ribbon-reflection"><stop stopColor="#9db9ed" stopOpacity=".12" /><stop offset="1" stopColor="#070f21" stopOpacity="0" /></radialGradient>
+              <filter id="ribbon-soft" x="-10%" y="-100%" width="120%" height="300%"><feGaussianBlur stdDeviation="8" /></filter>
+              <path id="ribbon-contour" d="M-80 88 C130 96 220 20 400 47 C590 77 665 113 850 74 C1030 36 1120 16 1280 46 C1400 69 1450 78 1520 63" />
             </defs>
-            <use href="#ribbon-contour" stroke="url(#ribbon-color)" strokeWidth="22" opacity=".4" filter="url(#ribbon-soft)" />
-            <path d="M-80 105 C130 110 195 40 370 62 C560 86 650 133 835 91 C1020 49 1090 31 1240 62 C1370 89 1435 99 1520 81 L1520 160 L-80 160Z" fill="url(#ribbon-shade)" />
-            <use href="#ribbon-contour" stroke="url(#ribbon-color)" strokeWidth=".9" />
-            <use href="#ribbon-contour" transform="translate(0 7)" stroke="url(#ribbon-color)" strokeWidth=".5" opacity=".3" />
-            <use href="#ribbon-contour" transform="translate(0 18)" stroke="url(#ribbon-color)" strokeWidth=".5" opacity=".12" />
+            <ellipse cx="310" cy="80" rx="340" ry="55" fill="url(#ribbon-reflection)" />
+            <ellipse cx="1130" cy="65" rx="310" ry="55" fill="url(#ribbon-reflection)" />
+            <path d="M-80 65 C180 12 370 130 640 88 S1100 15 1520 102" stroke="url(#ribbon-light)" strokeWidth=".7" opacity=".18" />
+            <use href="#ribbon-contour" stroke="url(#ribbon-light)" strokeWidth="12" opacity=".45" filter="url(#ribbon-soft)" />
+            <path d="M-80 88 C130 96 220 20 400 47 C590 77 665 113 850 74 C1030 36 1120 16 1280 46 C1400 69 1450 78 1520 63 L1520 103 C1370 129 1150 39 1000 77 C780 146 620 112 410 74 C220 40 120 118 -80 112Z" fill="url(#ribbon-material)" />
+            <use href="#ribbon-contour" stroke="url(#ribbon-light)" strokeWidth="1.2" />
+            <path d="M-80 101 C125 112 225 32 405 61 C590 91 670 125 855 86 C1030 48 1125 30 1280 60 C1400 83 1450 91 1520 77" stroke="url(#ribbon-light)" strokeWidth=".6" opacity=".2" />
           </svg>
           <a href="#about" className="hero-explore"><span className="explore-rule" aria-hidden="true" /><span>Discover my work</span><span className="explore-arrow"><FaChevronDown aria-hidden="true" /></span><span className="explore-rule" aria-hidden="true" /></a>
         </div>
