@@ -9,9 +9,24 @@ test("sends message fields and accepts an explicit service confirmation", async 
     assert.equal(url, "https://formsubmit.co/ajax/sagarmanna954@gmail.com");
     assert.equal(options.method, "POST");
     assert.equal(options.signal, signal);
-    assert.deepEqual(JSON.parse(options.body), fields);
+    assert.deepEqual(JSON.parse(options.body), {
+      Name: "Test", Email: "test@example.com", Message: "A test message",
+      _replyto: "test@example.com", _subject: "Portfolio message from Test", _template: "box",
+    });
     return { ok: true, json: async () => ({ success: "true" }) };
   } });
+});
+
+test("keeps message paragraphs and removes line breaks from the email subject", async () => {
+  await sendContactMessage({ name: "  Alex\r\nTaylor  ", email: " alex@example.com ", message: " First paragraph\n\nSecond paragraph " }, {
+    fetcher: async (_url, options) => {
+      const payload = JSON.parse(options.body);
+      assert.equal(payload._subject, "Portfolio message from Alex Taylor");
+      assert.equal(payload._replyto, "alex@example.com");
+      assert.equal(payload.Message, "First paragraph\n\nSecond paragraph");
+      return { ok: true, json: async () => ({ success: true }) };
+    },
+  });
 });
 
 for (const success of [false, "false", undefined]) {

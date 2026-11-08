@@ -684,6 +684,7 @@ body { font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif; }
 .message-form-status:empty { display: none; }
 .message-form-status { display: flex; align-items: flex-start; gap: 8px; padding: 12px 14px; border-radius: 9px; font-size: 12px; line-height: 1.7; }
 .message-form-status svg { flex-shrink: 0; margin-top: 4px; }
+.message-form-status-duplicate { color: #ead697; border: 1px solid #cfb05535; background: #9b7d2110; }
 .message-form-status-sending { color: #b6c9de; background: #91b4df0a; }
 .message-form-status-success { color: #b0e6cd; border: 1px solid #4ea88445; background: #1b795b18; }
 .message-form-status-error { color: #f1c1b5; border: 1px solid #c8796440; background: #a3442714; }
